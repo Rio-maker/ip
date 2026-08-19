@@ -14,10 +14,16 @@ public class Minerva {
             System.out.println((i + 1) + ". " + taskList[i]);
         }
     }
+    public static void unmark(int taskNumber) {
+        int index = taskNumber - 1;
+        taskList[index] = taskList[index].replace("[X]", "[ ]");
+        System.out.println("OK, I've marked this task as not done yet, make up your mind next time:");
+        System.out.println(taskList[index]);
+    }
     public static void mark(int taskNumber) {
         int index = taskNumber - 1;
         taskList[index] = taskList[index].replace("[ ]", "[X]");
-        System.out.println("Nice! I've marked this task as done :");
+        System.out.println("Nice! I've marked this task as done, what's next? :");
         System.out.println(taskList[index]);
     }
 
@@ -33,6 +39,9 @@ public class Minerva {
             } else if (input.startsWith("mark ")) {
                 int taskNumber = Integer.parseInt(input.substring(5));
                 mark(taskNumber);
+            } else if (input.startsWith("unmark ")) {
+                int taskNumber = Integer.parseInt(input.substring(7));
+                unmark(taskNumber);
             } else {
                 taskList[counter] = "[ ]" + input;
                 counter ++;
