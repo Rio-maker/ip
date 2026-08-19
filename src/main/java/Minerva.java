@@ -14,6 +14,13 @@ public class Minerva {
             System.out.println((i + 1) + ". " + taskList[i]);
         }
     }
+    public static void mark(int taskNumber) {
+        int index = taskNumber - 1;
+        taskList[index] = taskList[index].replace("[ ]", "[X]");
+        System.out.println("Nice! I've marked this task as done :");
+        System.out.println(taskList[index]);
+    }
+
     public static void taskLoop(Scanner sc) {
         while(true) {
             System.out.println("What can I do for you today :)?\n" +
@@ -23,8 +30,11 @@ public class Minerva {
                 break;
             } else if (input.equals("list")) {
                 showTasklist();
+            } else if (input.startsWith("mark ")) {
+                int taskNumber = Integer.parseInt(input.substring(5));
+                mark(taskNumber);
             } else {
-                taskList[counter] = input;
+                taskList[counter] = "[ ]" + input;
                 counter ++;
                 System.out.println("added: " + input);
             }
