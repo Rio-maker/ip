@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 public class Minerva {
     private static int counter = 0;
-    public static String[] taskList = new String[100];
+    public static Task[] taskList = new Task[100];
     public static void showFarewell() {
         System.out.println("Bye. And I hope to see you again soon!");
     }
@@ -16,13 +16,13 @@ public class Minerva {
     }
     public static void unmark(int taskNumber) {
         int index = taskNumber - 1;
-        taskList[index] = taskList[index].replace("[X]", "[ ]");
+        taskList[index].markUnDone();
         System.out.println("OK, I've marked this task as not done yet, make up your mind next time:");
         System.out.println(taskList[index]);
     }
     public static void mark(int taskNumber) {
         int index = taskNumber - 1;
-        taskList[index] = taskList[index].replace("[ ]", "[X]");
+        taskList[index].markDone();
         System.out.println("Nice! I've marked this task as done, what's next? :");
         System.out.println(taskList[index]);
     }
@@ -43,7 +43,7 @@ public class Minerva {
                 int taskNumber = Integer.parseInt(input.substring(7));
                 unmark(taskNumber);
             } else {
-                taskList[counter] = "[ ]" + input;
+                taskList[counter] = new Task(input);
                 counter ++;
                 System.out.println("added: " + input);
             }
