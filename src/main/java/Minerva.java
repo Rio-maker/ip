@@ -10,6 +10,7 @@ public class Minerva {
         System.out.println("Hello! I'm Minerva! Ask me anything.");
     }
     public static void showTasklist() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < counter; i++) {
             System.out.println((i + 1) + ". " + taskList[i]);
         }
@@ -42,7 +43,26 @@ public class Minerva {
             } else if (input.startsWith("unmark ")) {
                 int taskNumber = Integer.parseInt(input.substring(7));
                 unmark(taskNumber);
-            } else {
+            } else if (input.startsWith("todo ")) {
+                taskList[counter] = new toDo(input.substring(5));
+                counter ++;
+                System.out.println("Got it. I've added this task:\n" + taskList[counter - 1].toString()+ "\n" +
+                                    "Now you have " + counter + " tasks in the list.");
+            } else if (input.startsWith("deadline ")) {
+                String[] parts = input.split(" /by ", 2);
+                taskList[counter] = new deadline( parts[0].substring(9), // removes "deadline "
+                        parts[1]);
+                System.out.println("Got it. I've added this task:\n" + taskList[counter]);
+                counter++;
+                System.out.println("Now you have " + counter + " tasks in the list.");
+            } else if (input.startsWith("event ")) {
+            String[] parts = input.split(" /from | /to ");
+            taskList[counter] = new event( parts[0].substring(6), parts[1],parts[2]);
+            System.out.println("Got it. I've added this task:\n" + taskList[counter]);
+            counter++;
+            System.out.println("Now you have " + counter + " tasks in the list.");
+        }
+            else {
                 taskList[counter] = new Task(input);
                 counter ++;
                 System.out.println("added: " + input);

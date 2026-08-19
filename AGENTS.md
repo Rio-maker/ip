@@ -24,6 +24,10 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Post-update UI testing
+
+After every application code update, review `test/ui-test-plan.md` and update it when the change adds or alters user-visible console behavior, inputs, commands, or expected output. Then invoke the project-specific `$test-ui` skill to run the complete plan. Run every case even when an earlier case fails, and include the full console session record plus all failures in the handoff.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
