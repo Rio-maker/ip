@@ -44,10 +44,14 @@ public class Minerva {
                 int taskNumber = Integer.parseInt(input.substring(7));
                 unmark(taskNumber);
             } else if (input.startsWith("todo ")) {
-                taskList[counter] = new toDo(input.substring(5));
-                counter ++;
-                System.out.println("Got it. I've added this task:\n" + taskList[counter - 1].toString()+ "\n" +
-                                    "Now you have " + counter + " tasks in the list.");
+                try {
+                    taskList[counter] = new toDo(input.substring(5));
+                    counter ++;
+                    System.out.println("Got it. I've added this task:\n" + taskList[counter - 1].toString()+ "\n" +
+                            "Now you have " + counter + " tasks in the list.");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("OOPS!!! The description of a todo cannot be empty.");
+                }
             } else if (input.startsWith("deadline ")) {
                 String[] parts = input.split(" /by ", 2);
                 taskList[counter] = new deadline( parts[0].substring(9), // removes "deadline "
@@ -63,6 +67,10 @@ public class Minerva {
             System.out.println("Now you have " + counter + " tasks in the list.");
         }
             else {
+                if (input.isBlank()) {
+                    System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    continue;
+                }
                 taskList[counter] = new Task(input);
                 counter ++;
                 System.out.println("added: " + input);
