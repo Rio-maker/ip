@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Minerva {
     private static int counter = 0;
@@ -10,7 +9,7 @@ public class Minerva {
     }
 
     public static void showGreeting() {
-        System.out.println("Hello! I'm Minerva! Ask me anything.");
+        System.out.println("Hello! I'm Minerva! Ask me anything. *Type help for list of commands");
     }
 
     public static void showTasklist() {
@@ -46,59 +45,107 @@ public class Minerva {
 
     public static void taskLoop(Scanner sc) {
         while (true) {
-            System.out.println("What can I do for you today :)?\n" +
+            System.out.println("What can I do for you today :)? \n" +
                     "Awaiting your input: ");
             String input = sc.nextLine();
-            if (input.equals("bye")) {
+            String[] part = input.split("\\s+", 2);
+            Keyword keyword = switch (part[0].toLowerCase()) {
+                case "bye" -> Keyword.BYE;
+                case "list" -> Keyword.LIST;
+                case "mark" -> Keyword.MARK;
+                case "unmark" -> Keyword.UNMARK;
+                case "todo" -> Keyword.TODO;
+                case "deadline" -> Keyword.DEADLINE;
+                case "event" -> Keyword.EVENT;
+                case "delete" -> Keyword.DELETE;
+                case "task" -> Keyword.TASK;
+                case "help" -> Keyword.HELP;
+                default -> Keyword.UNKNOWN;
+            };
+            if (keyword == Keyword.BYE) {
                 break;
-            } else if (input.equals("list")) {
+            } else if (keyword == Keyword.LIST) {
                 showTasklist();
-            } else if (input.startsWith("mark ")) {
-                int taskNumber = Integer.parseInt(input.substring(5));
-                mark(taskNumber);
-            } else if (input.startsWith("unmark ")) {
-                int taskNumber = Integer.parseInt(input.substring(7));
-                unmark(taskNumber);
-            } else if (input.startsWith("todo ")) {
+            } else if (keyword == Keyword.HELP) {
+                System.out.println("Here are the available functions: ");
+                for (Keyword key : Keyword.values()) {
+                    System.out.println(key);
+                }
+            } else if (keyword == Keyword.MARK) {
                 try {
-                    String description = input.substring(4).trim();
-                    if (description.isBlank()) {
-                        throw new IllegalArgumentException();
-                    }
+                    int taskNumber = Integer.parseInt(part[1]);
+                    mark(taskNumber);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("mark needs a valid number less than or equals to: " + counter);
+                }
+            } else if (keyword == Keyword.UNMARK) {
+                try {
+                    int taskNumber = Integer.parseInt(part[1]);
+                    unmark(taskNumber);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("unmark needs a valid number less than or equals to: " + counter);
+                }
+            } else if (keyword == Keyword.TODO) {
+                try {
+                    String description = part[1].trim();
                     taskList.add(new toDo(description));
                     counter++;
                     System.out.println("Got it. I've added this task:\n" + taskList.get(counter - 1) + "\n" +
                             "Now you have " + counter + " tasks in the list.");
-                } catch (IllegalArgumentException e) {
+                } catch (IndexOutOfBoundsException e) {
                     System.out.println("OOPS!!! The description of a todo cannot be empty.");
                 }
-            } else if (input.startsWith("deadline ")) {
-                String[] parts = input.split(" /by ", 2);
-                taskList.add(new deadline(parts[0].substring(9), // removes "deadline "
-                        parts[1]));
-                System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
-                counter++;
-                System.out.println("Now you have " + counter + " tasks in the list.");
-            } else if (input.startsWith("event ")) {
-                String[] parts = input.split(" /from | /to ");
-                taskList.add(new event(parts[0].substring(6), parts[1], parts[2]));
-                System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
-                counter++;
-                System.out.println("Now you have " + counter + " tasks in the list.");
-            } else if (input.startsWith(("delete "))) {
-                int taskNumber = Integer.parseInt(input.substring(7));
-                delete(taskNumber);
-            } else {
+            } else if (keyword == Keyword.DEADLINE) {
+                try {
+                    String[] due = part[1].split(" /by ", 2);
+                    if (due[1].isBlank()) {
+                        throw new MinervaArgumentException("Deadline has no due date!!!!");
+                    }
+                    taskList.add(new deadline(due[0], due[1]));
+                    System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
+                    counter++;
+                    System.out.println("Now you have " + counter + " tasks in the list.");
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Deadline has missing fields!");
+                } catch (MinervaArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (keyword == Keyword.EVENT) {
+                try {
+                    String[] from_to = part[1].split(" /from | /to ");
+                    if (from_to[1].isBlank() || from_to[2].isBlank()) {
+                        throw new MinervaArgumentException("Missing from or to fields, check again!");
+                    }
+                    taskList.add(new event(from_to[0], from_to[1], from_to[2]));
+                    System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
+                    counter++;
+                    System.out.println("Now you have " + counter + " tasks in the list.");
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Deadline has missing fields!");
+                } catch (MinervaArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+
+            } else if (keyword == Keyword.DELETE) {
+                try {
+                    int taskNumber = Integer.parseInt(part[1]);
+                    delete(taskNumber);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("delete needs a valid number less than or equals to: " + counter);
+                }
+            } else if (keyword == Keyword.TASK) {
                 try {
                     if (input.isBlank()) {
                         throw new IllegalArgumentException();
                     }
                     taskList.add(new Task(input));
                     counter++;
-                    System.out.println("added: " + input);
+                    System.out.println("added: " + input + " as Task at: " + counter);
                 } catch (IllegalArgumentException e) {
-                    System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    System.out.println("Sorry no blanks allowed !!");
                 }
+            } else if (keyword == Keyword.UNKNOWN) {
+                System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
