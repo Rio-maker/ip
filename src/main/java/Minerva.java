@@ -1,4 +1,9 @@
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Minerva {
     private static int counter = 0;
@@ -24,6 +29,7 @@ public class Minerva {
         taskList.get(index).markUnDone();
         System.out.println("OK, I've marked this task as not done yet, make up your mind next time:");
         System.out.println(taskList.get(index));
+        saveTasks();
     }
 
     public static void mark(int taskNumber) {
@@ -31,6 +37,7 @@ public class Minerva {
         taskList.get(index).markDone();
         System.out.println("Nice! I've marked this task as done, what's next? :");
         System.out.println(taskList.get(index));
+        saveTasks();
     }
 
     public static void delete(int taskNumber) {
@@ -41,7 +48,88 @@ public class Minerva {
         System.out.println(temp);
         counter--;
         System.out.println("Now you have " + counter + " tasks in the list.");
+        saveTasks();
     }
+
+    public static void saveTasks() {
+        try {
+            File file = new File("." + File.separator + "data" + File.separator + "minerva.txt");
+            //Overwrites the previous file if present
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs(); //mkdirs() checks whether ./data exists, creating if it doesnt.
+            }
+            FileWriter writer = new FileWriter(file);
+            for (Task task : taskList) {
+                writer.write(task.toFileFormat() + System.lineSeparator());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    public static void loadTasks() {
+        File file = new File("." + File.separator + "data" + File.separator + "minerva.txt");
+        if (!file.exists()) {
+            return;
+        }
+
+        try (Scanner fileScan = new Scanner(file)) {
+            while (fileScan.hasNextLine()) {
+                String line = fileScan.nextLine().trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                String[] parts = line.split(" \\| ");
+                if (parts.length < 2) {
+                    continue;
+                }
+
+                try {
+                    String type = parts[0];
+                    boolean isDone = parts[1].equals("1");
+                    Task task = null;
+
+                    switch (type) {
+                        case "T":
+                            if (parts.length >= 3) {
+                                task = new toDo(parts[2]);
+                            }
+                            break;
+                        case "D":
+                            if (parts.length >= 4) {
+                                task = new deadline(parts[2], parts[3]);
+                            }
+                            break;
+                        case "E":
+                            if (parts.length >= 5) {
+                                task = new event(parts[2], parts[3], parts[4]);
+                            }
+                            break;
+                        default:
+                            // Generic base task fallback (format: 1 | task description)
+                            task = new Task(parts[1]);
+                            isDone = parts[0].equals("1");
+                            break;
+                    }
+
+                    if (task != null) {
+                        if (isDone) {
+                            task.markDone();
+                        }
+                        taskList.add(task);
+                        counter++;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Warning: Skipping corrupted task entry in save file.");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("No saved tasks file found.");
+        }
+    }
+
 
     public static void taskLoop(Scanner sc) {
         while (true) {
@@ -89,9 +177,10 @@ public class Minerva {
                 try {
                     String description = part[1].trim();
                     taskList.add(new toDo(description));
+                    System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
                     counter++;
-                    System.out.println("Got it. I've added this task:\n" + taskList.get(counter - 1) + "\n" +
-                            "Now you have " + counter + " tasks in the list.");
+                    System.out.println("Now you have " + counter + " tasks in the list.");
+                    saveTasks(); //new
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("OOPS!!! The description of a todo cannot be empty.");
                 }
@@ -105,6 +194,7 @@ public class Minerva {
                     System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
                     counter++;
                     System.out.println("Now you have " + counter + " tasks in the list.");
+                    saveTasks(); //new
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Deadline has missing fields!");
                 } catch (MinervaArgumentException e) {
@@ -120,6 +210,7 @@ public class Minerva {
                     System.out.println("Got it. I've added this task:\n" + taskList.get(counter));
                     counter++;
                     System.out.println("Now you have " + counter + " tasks in the list.");
+                    saveTasks(); //new
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("Deadline has missing fields!");
                 } catch (MinervaArgumentException e) {
@@ -141,6 +232,7 @@ public class Minerva {
                     taskList.add(new Task(input));
                     counter++;
                     System.out.println("added: " + input + " as Task at: " + counter);
+                    saveTasks(); //new
                 } catch (IllegalArgumentException e) {
                     System.out.println("Sorry no blanks allowed !!");
                 }
@@ -151,7 +243,6 @@ public class Minerva {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         String banner = "$$\\      $$\\       $$\\                                                                         $$$$$$\\  \n"
                 + "$$$\\    $$$ |      \\__|                                                                       $$  __$$\\ \n"
                 + "$$$$\\  $$$$ |      $$\\       $$$$$$$\\         $$$$$$\\         $$$$$$\\        $$\\    $$\\       $$ /  $$ |\n"
@@ -162,6 +253,8 @@ public class Minerva {
                 + "\\__|     \\__|      \\__|      \\__|  \\__|       \\_______|      \\__|                \\_/          \\__|  \\__|\n";
         System.out.println(banner);
         showGreeting();
+        loadTasks();
+        Scanner sc = new Scanner(System.in);
         taskLoop(sc);
         showFarewell();
     }
