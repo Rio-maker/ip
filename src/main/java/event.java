@@ -1,20 +1,25 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class event extends Task {
-    private String from;
-    private String to;
+    protected LocalDate from;
+    protected String to;
 
-    public event(String description, String from, String to) {
+    public event(String description, String from, String to) throws DateTimeParseException {
         super(description);
-        this.from = from;
-        this.to = to;
-    }
-
-    @Override
-    public String toString() {
-        return "[E]" + super.toString() +  " (from: " + from + " to: " + to + ")";
+        this.from = LocalDate.parse(from.trim());
+        this.to = to.trim();
     }
 
     @Override
     public String toFileFormat() {
-        return "E | " + super.toFileFormat() + " | " + from + " | " + to;
+        return "E | " + super.toFileFormat() + " | " + from.toString() + " | " + to;
+    }
+
+    @Override
+    public String toString() {
+        String formattedFrom = from.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        return "[E]" + super.toString() + " (from: " + formattedFrom + " to: " + to + ")";
     }
 }
