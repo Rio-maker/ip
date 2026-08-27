@@ -187,7 +187,7 @@ public class Minerva {
             } else if (keyword == Keyword.DEADLINE) {
                 try {
                     String[] due = part[1].split(" /by ", 2);
-                    if (due[1].isBlank()) {
+                    if (due.length < 2 || due[1].isBlank()) {
                         throw new MinervaArgumentException("Deadline has no due date!!!!");
                     }
                     taskList.add(new deadline(due[0], due[1]));
@@ -199,11 +199,13 @@ public class Minerva {
                     System.out.println("Deadline has missing fields!");
                 } catch (MinervaArgumentException e) {
                     System.out.println(e.getMessage());
+                } catch (java.time.format.DateTimeParseException e) {
+                    System.out.println("Please enter date in yyyy-MM-dd format! (e.g., 2026-08-27)");
                 }
             } else if (keyword == Keyword.EVENT) {
                 try {
                     String[] from_to = part[1].split(" /from | /to ");
-                    if (from_to[1].isBlank() || from_to[2].isBlank()) {
+                    if (from_to.length < 3 || from_to[1].isBlank() || from_to[2].isBlank()) {
                         throw new MinervaArgumentException("Missing from or to fields, check again!");
                     }
                     taskList.add(new event(from_to[0], from_to[1], from_to[2]));
@@ -215,8 +217,9 @@ public class Minerva {
                     System.out.println("Deadline has missing fields!");
                 } catch (MinervaArgumentException e) {
                     System.out.println(e.getMessage());
+                } catch (java.time.format.DateTimeParseException e) {
+                    System.out.println("Please enter the 'from' date in yyyy-MM-dd format! (e.g., 2026-08-27)");
                 }
-
             } else if (keyword == Keyword.DELETE) {
                 try {
                     int taskNumber = Integer.parseInt(part[1]);

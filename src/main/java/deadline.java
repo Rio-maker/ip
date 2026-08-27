@@ -1,17 +1,26 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class deadline extends Task{
-    protected String by;
-    public deadline(String description, String by) {
+    protected LocalDate by;
+    public deadline(String description, String by) throws DateTimeParseException {
         super(description);
-        this.by = by;
+        this.by = LocalDate.parse(by.trim());
+    }
+
+    public LocalDate getBy() {
+        return this.by;
     }
 
     @Override
     public String toString() {
-        return "[D]"+ super.toString() + " (by: " + by + ")";
+        String formattedDate = by.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        return "[D]"+ super.toString() + " (by: " + formattedDate + ")";
     }
 
     @Override
     public String toFileFormat() {
-        return "D | " + super.toFileFormat() + " | " + by;
+        return "D | " + super.toFileFormat() + " | " + by.toString();
     }
 }
