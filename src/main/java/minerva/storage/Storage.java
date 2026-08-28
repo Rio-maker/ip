@@ -11,13 +11,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * storage class takes in filePath and reconstructs tasklist from filepath iteratively
+ * handles loading and saving with the format described in ip
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * sets up filePath according to arg
+     * @param filePath
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * checks if file exists at filepath, if exists loads it in with scanner
+     * scanning line by line and rebuilding arraylist of previous tasks
+     * skips empty lines, corrupted lines etc, switch case for each sub-type of class
+     * @return rebuilt loadedtask arraylist from memory
+     * @throws FileNotFoundException minerva class handles this, and just makes a new tasklist
+     */
     public ArrayList<Task> load() throws FileNotFoundException {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -78,6 +93,11 @@ public class Storage {
         return loadedTasks;
     }
 
+    /**
+     * save runs after adding anything to tasklist/editing it
+     * converts each task into file format to write into filepath line by line
+     * @param tasks
+     */
     public void save(ArrayList<Task> tasks) {
         try {
             File file = new File(filePath);
