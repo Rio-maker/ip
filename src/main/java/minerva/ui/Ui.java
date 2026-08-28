@@ -1,3 +1,5 @@
+package minerva.ui;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -21,7 +23,7 @@ public class Ui {
                 + "$$ | \\_/ $$ |      $$ |      $$ |  $$ |      \\$$$$$$$\\       $$ |               \\$  /         $$ |  $$ |\n"
                 + "\\__|     \\__|      \\__|      \\__|  \\__|       \\_______|      \\__|                \\_/          \\__|  \\__|\n";
         System.out.println(banner);
-        System.out.println("Hello! I'm Minerva! Ask me anything. *Type help for list of commands");
+        System.out.println("Hello! I'm minerva.Minerva! Ask me anything. *Type help for list of commands");
     }
 
     public void showFarewell() {
