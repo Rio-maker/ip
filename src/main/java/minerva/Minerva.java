@@ -12,12 +12,21 @@ import minerva.task.toDo;
 import minerva.task.deadline;
 import minerva.task.event;
 
+/**
+ * Minerva class to take in a filepath, check for and load any existing old storage
+ * runs task loop after once tasklist taken care of
+ */
 public class Minerva {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "minerva.txt";
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Initializes a new UI object to handle user interactions
+     * Checks for last-used storage in filepath to load in TaskList conversion
+     * @param filePath the file path to be used for checking old storage
+     */
     public Minerva(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -29,6 +38,13 @@ public class Minerva {
         }
     }
 
+    /**
+     * starts up with welcome message, initialize loop to continuously prompt user
+     * isExit turns true only for bye command and loop is exited.
+     * keyword switching based on first word used in user-reply
+     * delete, mark and unmark has index handling, doesn't check for over-marking/unmarking
+     * todo,deadline,event all has formatting checks in place
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -43,8 +59,8 @@ public class Minerva {
                 case "mark" -> Keyword.MARK;
                 case "unmark" -> Keyword.UNMARK;
                 case "todo" -> Keyword.TODO;
-                case "minerva.task.deadline" -> Keyword.DEADLINE;
-                case "minerva.task.event" -> Keyword.EVENT;
+                case "deadline" -> Keyword.DEADLINE;
+                case "event" -> Keyword.EVENT;
                 case "delete" -> Keyword.DELETE;
                 case "task" -> Keyword.TASK;
                 case "help" -> Keyword.HELP;
@@ -66,7 +82,9 @@ public class Minerva {
 
                 case HELP:
                     ui.showMessage("Here are the available functions: ");
-                    for (Keyword key : Keyword.values()) {
+                    Keyword[] keywords = Keyword.values();
+                    for (int i = 0; i < keywords.length; i++){
+                        Keyword key = keywords[i];
                         if (key == Keyword.UNKNOWN) {
                             continue;
                         }
@@ -106,7 +124,7 @@ public class Minerva {
                         ui.showMessage("Got it. I've added this task:\n" + newTask + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException e) {
-                        ui.showError("OOPS!!! The description of a minerva.todo cannot be empty.");
+                        ui.showError("OOPS!!! The description of a todo cannot be empty.");
                     }
                     break;
 
@@ -167,7 +185,7 @@ public class Minerva {
                         }
                         Task newTask = new Task(fullCommand);
                         tasks.add(newTask);
-                        ui.showMessage("added: " + fullCommand + " as minerva.task.Task at: " + tasks.getSize());
+                        ui.showMessage("added: " + fullCommand + " as Task at index: " + tasks.getSize());
                         storage.save(tasks.getTasks());
                     } catch (IllegalArgumentException e) {
                         ui.showError("Sorry no blanks allowed !!");
@@ -181,6 +199,10 @@ public class Minerva {
         }
     }
 
+    /**
+     * main method used to just intialize class and run task loop
+     * @param args boilerplate
+     */
     public static void main(String[] args) {
         new Minerva(FILE_PATH).run();
     }
