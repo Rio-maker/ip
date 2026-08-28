@@ -1,4 +1,4 @@
-# Minerva User Guide
+# minerva.Minerva User Guide
 
 // Update the title above to match the actual product name
 

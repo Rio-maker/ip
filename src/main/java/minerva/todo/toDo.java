@@ -1,4 +1,8 @@
-public class toDo extends Task{
+package minerva.todo;
+
+import minerva.task.Task;
+
+public class toDo extends Task {
     public toDo(String description) {
         super(description);
     }

@@ -647,8 +647,8 @@ function renderFile(file, container) {
   attach(body, flatRows);
   markRows(body);
 
-  body.addEventListener("click", event => {
-    const button = event.target.closest("tr.fold button");
+  body.addEventListener("click", minerva.event.event => {
+    const button = minerva.event.event.target.closest("tr.fold button");
     if (!button) return;
     const tr = button.closest("tr.fold");
     const segment = segments[Number(tr.dataset.segment)];

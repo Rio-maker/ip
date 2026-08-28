@@ -1,3 +1,8 @@
+package minerva.storage;
+
+import minerva.deadline.deadline;
+import minerva.event.event;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

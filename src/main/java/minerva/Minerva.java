@@ -1,3 +1,7 @@
+package minerva;
+
+import minerva.common.Keyword;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -32,8 +36,8 @@ public class Minerva {
                 case "mark" -> Keyword.MARK;
                 case "unmark" -> Keyword.UNMARK;
                 case "todo" -> Keyword.TODO;
-                case "deadline" -> Keyword.DEADLINE;
-                case "event" -> Keyword.EVENT;
+                case "minerva.deadline.deadline" -> Keyword.DEADLINE;
+                case "minerva.event.event" -> Keyword.EVENT;
                 case "delete" -> Keyword.DELETE;
                 case "task" -> Keyword.TASK;
                 case "help" -> Keyword.HELP;
@@ -95,7 +99,7 @@ public class Minerva {
                         ui.showMessage("Got it. I've added this task:\n" + newTask + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException e) {
-                        ui.showError("OOPS!!! The description of a todo cannot be empty.");
+                        ui.showError("OOPS!!! The description of a minerva.todo cannot be empty.");
                     }
                     break;
 
@@ -156,7 +160,7 @@ public class Minerva {
                         }
                         Task newTask = new Task(fullCommand);
                         tasks.add(newTask);
-                        ui.showMessage("added: " + fullCommand + " as Task at: " + tasks.getSize());
+                        ui.showMessage("added: " + fullCommand + " as minerva.task.Task at: " + tasks.getSize());
                         storage.save(tasks.getTasks());
                     } catch (IllegalArgumentException e) {
                         ui.showError("Sorry no blanks allowed !!");

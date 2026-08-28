@@ -1,8 +1,10 @@
+package minerva.deadline;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class deadline extends Task{
+public class deadline extends Task {
     protected LocalDate by;
     public deadline(String description, String by) throws DateTimeParseException {
         super(description);
