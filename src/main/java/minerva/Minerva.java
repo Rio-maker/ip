@@ -1,9 +1,16 @@
 package minerva;
 
 import minerva.common.Keyword;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import minerva.ui.Ui;
+import minerva.storage.Storage;
+import minerva.exception.MinervaArgumentException;
+import minerva.task.Task;
+import minerva.task.TaskList;
+import minerva.task.toDo;
+import minerva.task.deadline;
+import minerva.task.event;
 
 public class Minerva {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "minerva.txt";
@@ -36,8 +43,8 @@ public class Minerva {
                 case "mark" -> Keyword.MARK;
                 case "unmark" -> Keyword.UNMARK;
                 case "todo" -> Keyword.TODO;
-                case "minerva.deadline.deadline" -> Keyword.DEADLINE;
-                case "minerva.event.event" -> Keyword.EVENT;
+                case "minerva.task.deadline" -> Keyword.DEADLINE;
+                case "minerva.task.event" -> Keyword.EVENT;
                 case "delete" -> Keyword.DELETE;
                 case "task" -> Keyword.TASK;
                 case "help" -> Keyword.HELP;

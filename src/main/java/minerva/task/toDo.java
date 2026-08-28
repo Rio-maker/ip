@@ -1,6 +1,4 @@
-package minerva.todo;
-
-import minerva.task.Task;
+package minerva.task;
 
 public class toDo extends Task {
     public toDo(String description) {

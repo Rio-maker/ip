@@ -1,8 +1,9 @@
 package minerva.storage;
 
-import minerva.deadline.deadline;
-import minerva.event.event;
-
+import minerva.task.Task;
+import minerva.task.toDo;
+import minerva.task.deadline;
+import minerva.task.event;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

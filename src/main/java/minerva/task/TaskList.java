@@ -1,6 +1,4 @@
-package minerva.tasklist;
-
-import minerva.task.Task;
+package minerva.task;
 
 import java.util.ArrayList;
 
