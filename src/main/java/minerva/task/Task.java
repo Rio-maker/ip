@@ -17,6 +17,13 @@ public class Task {
     }
 
     /**
+     * Uses Java in built string method to check if a word is contained
+     * @param word passed in from find function
+     */
+    public boolean containsWord(String word) {
+        return this.description.contains(word);
+    }
+    /**
      * Based on boolean of isDone
      * @return either X or blank for toString method
      */

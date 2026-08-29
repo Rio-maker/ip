@@ -20,6 +20,7 @@ public class Minerva {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "minerva.txt";
     private Storage storage;
     private TaskList tasks;
+    private TaskList foundTasks;
     private Ui ui;
 
     /**
@@ -44,6 +45,7 @@ public class Minerva {
      * keyword switching based on first word used in user-reply
      * delete, mark and unmark has index handling, doesn't check for over-marking/unmarking
      * todo,deadline,event all has formatting checks in place
+     * for level-9, finding, does not store the found sub-list in future, didnt see a point
      */
     public void run() {
         ui.showWelcome();
@@ -64,6 +66,7 @@ public class Minerva {
                 case "delete" -> Keyword.DELETE;
                 case "task" -> Keyword.TASK;
                 case "help" -> Keyword.HELP;
+                case "find" -> Keyword.FIND;
                 default -> Keyword.UNKNOWN;
             };
 
@@ -77,6 +80,21 @@ public class Minerva {
                     ui.showMessage("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.getSize(); i++) {
                         ui.showMessage((i + 1) + ". " + tasks.get(i));
+                    }
+                    break;
+
+                case FIND:
+                    String word = part[1].trim();
+                    ui.showMessage("Here are the matching tasks in your list:");
+                    ui.showMessage("Please do not delete/mark/unmark with this found index");
+                    foundTasks = new TaskList();
+                    for (int i = 0; i < tasks.getSize(); i++) {
+                        if (tasks.get(i).containsWord(word)) {
+                            foundTasks.add(tasks.get(i));
+                        }
+                    }
+                    for (int i = 0; i < foundTasks.getSize(); i++) {
+                        ui.showMessage((i + 1) + "." + foundTasks.get(i));
                     }
                     break;
 
