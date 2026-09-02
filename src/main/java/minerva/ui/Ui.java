@@ -14,6 +14,7 @@ public class Ui {
     }
 
     public void showWelcome() {
+        //CHECKSTYLE.OFF: LineLength
         String banner = "$$\\      $$\\       $$\\                                                                         $$$$$$\\  \n"
                 + "$$$\\    $$$ |      \\__|                                                                       $$  __$$\\ \n"
                 + "$$$$\\  $$$$ |      $$\\       $$$$$$$\\         $$$$$$\\         $$$$$$\\        $$\\    $$\\       $$ /  $$ |\n"
@@ -22,8 +23,10 @@ public class Ui {
                 + "$$ |\\$  /$$ |      $$ |      $$ |  $$ |      $$   ____|      $$ |              \\$$$  /        $$ |  $$ |\n"
                 + "$$ | \\_/ $$ |      $$ |      $$ |  $$ |      \\$$$$$$$\\       $$ |               \\$  /         $$ |  $$ |\n"
                 + "\\__|     \\__|      \\__|      \\__|  \\__|       \\_______|      \\__|                \\_/          \\__|  \\__|\n";
+        //CHECKSTYLE.ON: LineLength
         System.out.println(banner);
-        System.out.println("Hello! I'm minerva.Minerva! Ask me anything. *Type help for list of commands");
+        System.out.println("Hello! I'm minerva.Minerva! Ask me anything. *Type help for list "
+                + "of commands");
     }
 
     public void showFarewell() {

@@ -1,7 +1,7 @@
 package minerva.task;
 
-public class toDo extends Task {
-    public toDo(String description) {
+public class ToDo extends Task {
+    public ToDo(String description) {
         super(description);
     }
     @Override

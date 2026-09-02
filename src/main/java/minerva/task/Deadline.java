@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class deadline extends Task {
+public class Deadline extends Task {
     protected LocalDate by;
-    public deadline(String description, String by) throws DateTimeParseException {
+    public Deadline(String description, String by) throws DateTimeParseException {
         super(description);
         this.by = LocalDate.parse(by.trim());
     }
@@ -18,7 +18,7 @@ public class deadline extends Task {
     @Override
     public String toString() {
         String formattedDate = by.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-        return "[D]"+ super.toString() + " (by: " + formattedDate + ")";
+        return "[D]" + super.toString() + " (by: " + formattedDate + ")";
     }
 
     @Override

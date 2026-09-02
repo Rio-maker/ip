@@ -1,15 +1,16 @@
 package minerva.storage;
 
-import minerva.task.Task;
-import minerva.task.toDo;
-import minerva.task.deadline;
-import minerva.task.event;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import minerva.task.Deadline;
+import minerva.task.Event;
+import minerva.task.Task;
+import minerva.task.ToDo;
 
 public class Storage {
     private final String filePath;
@@ -45,17 +46,17 @@ public class Storage {
                     switch (type) {
                         case "T":
                             if (parts.length >= 3) {
-                                task = new toDo(parts[2]);
+                                task = new ToDo(parts[2]);
                             }
                             break;
                         case "D":
                             if (parts.length >= 4) {
-                                task = new deadline(parts[2], parts[3]);
+                                task = new Deadline(parts[2], parts[3]);
                             }
                             break;
                         case "E":
                             if (parts.length >= 5) {
-                                task = new event(parts[2], parts[3], parts[4]);
+                                task = new Event(parts[2], parts[3], parts[4]);
                             }
                             break;
                         default:

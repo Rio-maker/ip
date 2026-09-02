@@ -1,15 +1,16 @@
 package minerva.task;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 public class TaskListTest {
 
     @Test
     public void delete_validIndex_success() {
         TaskList tasks = new TaskList();
-        toDo todo = new toDo("buy milk");
+        ToDo todo = new ToDo("buy milk");
         tasks.add(todo);
 
         Task removed = tasks.delete(0);

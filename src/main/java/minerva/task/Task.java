@@ -27,7 +27,7 @@ public class Task {
     }
 
     public String toFileFormat() {
-        return " | " + (isDone? "1" : "0") + " | " + description;
+        return " | " + (isDone ? "1" : "0") + " | " + description;
     }
 }
 
