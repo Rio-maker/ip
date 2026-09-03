@@ -7,6 +7,10 @@
     <property name="severity" value="warning"/>
     <module name="FileTabCharacter"/>
     <module name="NewlineAtEndOfFile"/>
+    <!-- Load file-specific suppressions from suppressions.xml. -->
+    <module name="SuppressionFilter">
+        <property name="file" value="${config_loc}/suppressions.xml"/>
+    </module>
     <module name="LineLength">
         <property name="max" value="120"/>
     </module>
