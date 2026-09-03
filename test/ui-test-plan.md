@@ -30,7 +30,7 @@ Bye. And I hope to see you again soon!
 
 ## Test case: List tasks
 
-**Aim:** Confirm that the task list displays stored minerva.todo, minerva.task.deadline, and minerva.task.event entries in order.
+**Aim:** Confirm that the task list displays stored minerva.todo, minerva.task.Deadline, and minerva.task.Event entries in order.
 
 **Command:**
 
@@ -42,8 +42,8 @@ java -cp out minerva.Minerva
 
 ```text
 minerva.todo borrow book
-minerva.task.deadline return book /by Sunday
-minerva.task.event project meeting /from Mon 2pm /to 4pm
+minerva.task.Deadline return book /by Sunday
+minerva.task.Event project meeting /from Mon 2pm /to 4pm
 list
 bye
 ```
@@ -58,9 +58,9 @@ Here are the tasks in your list:
 Bye. And I hope to see you again soon!
 ```
 
-## Test case: Add a minerva.task.deadline
+## Test case: Add a minerva.task.Deadline
 
-**Aim:** Confirm that `/by` separates the minerva.task.deadline description from its date text.
+**Aim:** Confirm that `/by` separates the minerva.task.Deadline description from its date text.
 
 **Command:**
 
@@ -71,7 +71,7 @@ java -cp out minerva.Minerva
 **Console input:**
 
 ```text
-minerva.task.deadline return book /by Sunday
+minerva.task.Deadline return book /by Sunday
 bye
 ```
 
@@ -84,9 +84,9 @@ Now you have 1 tasks in the list.
 Bye. And I hope to see you again soon!
 ```
 
-## Test case: Add an minerva.task.event
+## Test case: Add an minerva.task.Event
 
-**Aim:** Confirm that `/from` and `/to` separate the minerva.task.event description and time text.
+**Aim:** Confirm that `/from` and `/to` separate the minerva.task.Event description and time text.
 
 **Command:**
 
@@ -97,7 +97,7 @@ java -cp out minerva.Minerva
 **Console input:**
 
 ```text
-minerva.task.event project meeting /from Mon 2pm /to 4pm
+minerva.task.Event project meeting /from Mon 2pm /to 4pm
 bye
 ```
 

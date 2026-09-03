@@ -59,7 +59,7 @@ public class Task {
      * @return in a file consistent format for saving, and also easier for next read
      */
     public String toFileFormat() {
-        return " | " + (isDone? "1" : "0") + " | " + description;
+        return " | " + (isDone ? "1" : "0") + " | " + description;
     }
 }
 

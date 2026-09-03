@@ -1,16 +1,17 @@
 package minerva;
 
-import minerva.common.Keyword;
 import java.io.File;
 import java.io.FileNotFoundException;
-import minerva.ui.Ui;
-import minerva.storage.Storage;
+
+import minerva.common.Keyword;
 import minerva.exception.MinervaArgumentException;
+import minerva.storage.Storage;
+import minerva.task.Deadline;
+import minerva.task.Event;
 import minerva.task.Task;
 import minerva.task.TaskList;
-import minerva.task.toDo;
-import minerva.task.deadline;
-import minerva.task.event;
+import minerva.task.ToDo;
+import minerva.ui.Ui;
 
 /**
  * Minerva class to take in a filepath, check for and load any existing old storage
@@ -115,7 +116,8 @@ public class Minerva {
                         int taskNumber = Integer.parseInt(part[1]);
                         int index = taskNumber - 1;
                         tasks.mark(index);
-                        ui.showMessage("Nice! I've marked this task as done, what's next? :\n" + tasks.get(index));
+                        ui.showMessage("Nice! I've marked this task as done, what's next? :\n"
+                                + tasks.get(index));
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException | NumberFormatException e) {
                         ui.showError("mark needs a valid number less than or equals to: " + tasks.getSize());
@@ -127,7 +129,8 @@ public class Minerva {
                         int taskNumber = Integer.parseInt(part[1]);
                         int index = taskNumber - 1;
                         tasks.unmark(index);
-                        ui.showMessage("OK, I've marked this task as not done yet, make up your mind next time:\n" + tasks.get(index));
+                        ui.showMessage("OK, I've marked this task as not done yet, make up your mind next time:\n"
+                                + tasks.get(index));
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException | NumberFormatException e) {
                         ui.showError("unmark needs a valid number less than or equals to: " + tasks.getSize());
@@ -137,9 +140,10 @@ public class Minerva {
                 case TODO:
                     try {
                         String description = part[1].trim();
-                        Task newTask = new toDo(description);
+                        Task newTask = new ToDo(description);
                         tasks.add(newTask);
-                        ui.showMessage("Got it. I've added this task:\n" + newTask + "\nNow you have " + tasks.getSize() + " tasks in the list.");
+                        ui.showMessage("Got it. I've added this task:\n" + newTask
+                                + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException e) {
                         ui.showError("OOPS!!! The description of a todo cannot be empty.");
@@ -152,9 +156,10 @@ public class Minerva {
                         if (due.length < 2 || due[1].isBlank()) {
                             throw new MinervaArgumentException("Deadline has no due date!!!!");
                         }
-                        Task newTask = new deadline(due[0], due[1]);
+                        Task newTask = new Deadline(due[0], due[1]);
                         tasks.add(newTask);
-                        ui.showMessage("Got it. I've added this task:\n" + newTask + "\nNow you have " + tasks.getSize() + " tasks in the list.");
+                        ui.showMessage("Got it. I've added this task:\n" + newTask
+                                + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException e) {
                         ui.showError("Deadline has missing fields!");
@@ -167,13 +172,14 @@ public class Minerva {
 
                 case EVENT:
                     try {
-                        String[] from_to = part[1].split(" /from | /to ");
-                        if (from_to.length < 3 || from_to[1].isBlank() || from_to[2].isBlank()) {
+                        String[] fromTo = part[1].split(" /from | /to ");
+                        if (fromTo.length < 3 || fromTo[1].isBlank() || fromTo[2].isBlank()) {
                             throw new MinervaArgumentException("Missing from or to fields, check again!");
                         }
-                        Task newTask = new event(from_to[0], from_to[1], from_to[2]);
+                        Task newTask = new Event(fromTo[0], fromTo[1], fromTo[2]);
                         tasks.add(newTask);
-                        ui.showMessage("Got it. I've added this task:\n" + newTask + "\nNow you have " + tasks.getSize() + " tasks in the list.");
+                        ui.showMessage("Got it. I've added this task:\n" + newTask
+                                + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException e) {
                         ui.showError("Event has missing fields!");
@@ -189,7 +195,8 @@ public class Minerva {
                         int taskNumber = Integer.parseInt(part[1]);
                         int index = taskNumber - 1;
                         Task removed = tasks.delete(index);
-                        ui.showMessage("Noted. I've removed this task:\n" + removed + "\nNow you have " + tasks.getSize() + " tasks in the list.");
+                        ui.showMessage("Noted. I've removed this task:\n" + removed
+                                + "\nNow you have " + tasks.getSize() + " tasks in the list.");
                         storage.save(tasks.getTasks());
                     } catch (IndexOutOfBoundsException | NumberFormatException e) {
                         ui.showError("delete needs a valid number less than or equals to: " + tasks.getSize());

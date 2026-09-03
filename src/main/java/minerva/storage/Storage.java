@@ -1,9 +1,5 @@
 package minerva.storage;
 
-import minerva.task.Task;
-import minerva.task.toDo;
-import minerva.task.deadline;
-import minerva.task.event;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -11,28 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * storage class takes in filePath and reconstructs tasklist from filepath iteratively
- * handles loading and saving with the format described in ip
- */
+import minerva.task.Deadline;
+import minerva.task.Event;
+import minerva.task.Task;
+import minerva.task.ToDo;
+
 public class Storage {
     private final String filePath;
 
-    /**
-     * sets up filePath according to arg
-     * @param filePath
-     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
-    /**
-     * checks if file exists at filepath, if exists loads it in with scanner
-     * scanning line by line and rebuilding arraylist of previous tasks
-     * skips empty lines, corrupted lines etc, switch case for each sub-type of class
-     * @return rebuilt loadedtask arraylist from memory
-     * @throws FileNotFoundException minerva class handles this, and just makes a new tasklist
-     */
     public ArrayList<Task> load() throws FileNotFoundException {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -60,17 +46,17 @@ public class Storage {
                     switch (type) {
                         case "T":
                             if (parts.length >= 3) {
-                                task = new toDo(parts[2]);
+                                task = new ToDo(parts[2]);
                             }
                             break;
                         case "D":
                             if (parts.length >= 4) {
-                                task = new deadline(parts[2], parts[3]);
+                                task = new Deadline(parts[2], parts[3]);
                             }
                             break;
                         case "E":
                             if (parts.length >= 5) {
-                                task = new event(parts[2], parts[3], parts[4]);
+                                task = new Event(parts[2], parts[3], parts[4]);
                             }
                             break;
                         default:
@@ -93,11 +79,6 @@ public class Storage {
         return loadedTasks;
     }
 
-    /**
-     * save runs after adding anything to tasklist/editing it
-     * converts each task into file format to write into filepath line by line
-     * @param tasks
-     */
     public void save(ArrayList<Task> tasks) {
         try {
             File file = new File(filePath);
