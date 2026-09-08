@@ -2,6 +2,9 @@ package minerva;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import minerva.common.Keyword;
 import minerva.exception.MinervaArgumentException;
@@ -153,13 +156,10 @@ public class Minerva {
             return "Please provide a word to search for.";
         }
 
-        foundTasks = new TaskList();
-
-        for (int i = 0; i < tasks.getSize(); i++) {
-            if (tasks.get(i).containsWord(word)) {
-                foundTasks.add(tasks.get(i));
-            }
-        }
+        ArrayList<Task> matchingTasks = tasks.getTasks().stream()
+                .filter(task -> task.containsWord(word))
+                .collect(Collectors.toCollection(ArrayList::new));
+        foundTasks = new TaskList(matchingTasks);
 
         StringBuilder response = new StringBuilder(
                 "Here are the matching tasks in your list:\n"
@@ -180,11 +180,9 @@ public class Minerva {
     private String showHelp() {
         StringBuilder response = new StringBuilder("Here are the available functions:");
 
-        for (Keyword keyword : Keyword.values()) {
-            if (keyword != Keyword.UNKNOWN) {
-                response.append("\n").append(keyword);
-            }
-        }
+        Arrays.stream(Keyword.values())
+                .filter(keyword -> keyword != Keyword.UNKNOWN)
+                .forEach(keyword -> response.append("\n").append(keyword));
 
         return response.toString();
     }
