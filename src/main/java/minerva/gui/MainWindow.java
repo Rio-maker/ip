@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import minerva.Minerva;
-import minerva.exception.MinervaArgumentException;
 
 /** Controller for the main GUI. */
 public class MainWindow extends AnchorPane {

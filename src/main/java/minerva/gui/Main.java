@@ -1,8 +1,7 @@
 package minerva.gui;
 
-import java.io.IOException;
-
 import java.io.File;
+import java.io.IOException;
 
 import minerva.Minerva;
 
@@ -14,7 +13,7 @@ import javafx.stage.Stage;
 
 /** A GUI for Minerva using FXML. */
 public class Main extends Application {
-    private Minerva minerva = new Minerva("." + File.separator + "data"
+    private final Minerva minerva = new Minerva("." + File.separator + "data"
             + File.separator + "minerva.txt");
 
     @Override
