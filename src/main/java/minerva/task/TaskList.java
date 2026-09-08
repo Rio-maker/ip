@@ -20,6 +20,7 @@ public class TaskList {
      * @param tasks
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list must not be null";
         this.tasks = tasks;
     }
 
@@ -39,6 +40,7 @@ public class TaskList {
      * @return task at specified index, throws out of range exception
      */
     public Task get(int index) {
+        assertValidIndex(index);
         return tasks.get(index);
     }
 
@@ -47,6 +49,7 @@ public class TaskList {
      * @param task
      */
     public void add(Task task) {
+        assert task != null : "Task list cannot contain null tasks";
         tasks.add(task);
     }
 
@@ -56,6 +59,7 @@ public class TaskList {
      * @return
      */
     public Task delete(int index) {
+        assertValidIndex(index);
         return tasks.remove(index);
     }
 
@@ -64,6 +68,7 @@ public class TaskList {
      * @param index
      */
     public void mark(int index) {
+        assertValidIndex(index);
         tasks.get(index).markDone();
     }
     /**
@@ -71,6 +76,16 @@ public class TaskList {
      * @param index
      */
     public void unmark(int index) {
+        assertValidIndex(index);
         tasks.get(index).markUnDone();
+    }
+    /**
+     * Checks that a task index refers to an existing task.
+     *
+     * @param index index to validate
+     */
+    private void assertValidIndex(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Task index must be within the task list";
     }
 }
