@@ -6,6 +6,19 @@ interface or the console application.
 
 ## Getting started
 
+### Option 1: Run the released JAR
+
+Download the latest `minerva.jar` from the project's [GitHub Releases](https://github.com/Rio-maker/ip/releases).
+Place it in an empty folder, open a terminal in that folder, and run:
+
+```bash
+java -jar minerva.jar
+```
+
+Java 25 is required.
+
+### Option 2: Run from the source code with Gradle
+
 Run the graphical application with Gradle:
 
 ```bash
