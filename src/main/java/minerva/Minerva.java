@@ -63,7 +63,7 @@ public class Minerva {
      */
     public String processCommand(String input) {
         if (input == null || input.isBlank()) {
-            return "Please enter a command.";
+            return "No worries! Please enter a command so I can help.";
         }
 
         String fullCommand = input.trim();
@@ -113,7 +113,7 @@ public class Minerva {
 
             case UNDO -> undo();
 
-            case UNKNOWN -> "OOPS!!! I'm sorry, but I don't know what that means :-(";
+            case UNKNOWN -> "I’m sorry, I didn’t recognize that command. Type help to see what I can do.";
         };
     }
 
@@ -207,7 +207,7 @@ public class Minerva {
             return "Nice! I've marked this task as done, what's next? :\n"
                     + tasks.get(index);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            return "mark needs a valid number less than or equals to: " + tasks.getSize();
+            return "I couldn’t find that task. Please choose a number from 1 to " + tasks.getSize() + ".";
         }
     }
 
@@ -228,7 +228,7 @@ public class Minerva {
             return "OK, I've marked this task as not done yet, make up your mind next time:\n"
                     + tasks.get(index);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            return "unmark needs a valid number less than or equals to: " + tasks.getSize();
+            return "I couldn’t find that task. Please choose a number from 1 to " + tasks.getSize() + ".";
         }
     }
 
@@ -240,7 +240,7 @@ public class Minerva {
      */
     private String addTodo(String description) {
         if (description.isBlank()) {
-            return "OOPS!!! The description of a todo cannot be empty.";
+            return "No worries! A todo needs a description. Please try again.";
         }
 
         Task newTask = new ToDo(description);
@@ -264,7 +264,7 @@ public class Minerva {
             String[] due = details.split(" /by ", 2);
 
             if (due.length < 2 || due[0].isBlank() || due[1].isBlank()) {
-                throw new MinervaArgumentException("Deadline has no due date!!!!");
+                throw new MinervaArgumentException("A deadline needs both a description and a due date. Please try again.");
             }
 
             Task newTask = new Deadline(due[0], due[1]);
@@ -278,7 +278,7 @@ public class Minerva {
         } catch (MinervaArgumentException e) {
             return e.getMessage();
         } catch (java.time.format.DateTimeParseException e) {
-            return "Please enter date in yyyy-MM-dd format! (e.g., 2026-08-27)";
+            return "That date format didn’t work. Please use yyyy-MM-dd, such as 2026-08-27.";
         }
     }
 
@@ -294,7 +294,7 @@ public class Minerva {
 
             if (fromTo.length < 3 || fromTo[0].isBlank()
                     || fromTo[1].isBlank() || fromTo[2].isBlank()) {
-                throw new MinervaArgumentException("Missing from or to fields, check again!");
+                throw new MinervaArgumentException("An event needs a description, a start time, and an end time. Please try again.");
             }
 
             Task newTask = new Event(fromTo[0], fromTo[1], fromTo[2]);
@@ -308,8 +308,7 @@ public class Minerva {
         } catch (MinervaArgumentException e) {
             return e.getMessage();
         } catch (java.time.format.DateTimeParseException e) {
-            return "Please enter the 'from' date in yyyy-MM-dd format!"
-                    + " (e.g., 2026-08-27)";
+            return "That start-date format didn’t work. Please use yyyy-MM-dd, such as 2026-08-27.";
         }
     }
 
@@ -330,7 +329,7 @@ public class Minerva {
             return "Noted. I've removed this task:\n" + removed
                     + "\nNow you have " + tasks.getSize() + " tasks in the list.";
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            return "delete needs a valid number less than or equals to: " + tasks.getSize();
+            return "I couldn’t find that task. Please choose a number from 1 to " + tasks.getSize() + ".";
         }
     }
 
@@ -342,7 +341,7 @@ public class Minerva {
      */
     private String addTask(String command) {
         if (command.length() <= 4 || command.substring(4).isBlank()) {
-            return "Sorry no blanks allowed !!";
+            return "No worries! A task needs a description. Please try again.";
         }
 
         String description = command.substring(4).trim();
@@ -366,7 +365,7 @@ public class Minerva {
             return "Alright, I've undone the previous valid operation. Current state: <3 \n"
                     + listTasks();
         } catch (NoSuchElementException e) {
-            return "deque is empty, no prior action to undo!";
+            return "There’s nothing to undo yet, but I’m ready when you are.";
         }
     }
 

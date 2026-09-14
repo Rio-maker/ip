@@ -82,7 +82,7 @@ public class Ui {
      * Displays the message shown when no saved task file is available.
      */
     public void showLoadingError() {
-        System.out.println("No saved tasks file found or error loading file. Starting with an empty task list.");
+        System.out.println("I couldn’t find your saved tasks, so I’ll start with an empty list.");
     }
 
     /**

@@ -45,9 +45,13 @@ public class DialogBox extends HBox {
     /** Identifies responses that should receive error styling. */
     private boolean isErrorMessage(String text) {
         return text.startsWith("OOPS") || text.startsWith("Please")
-                || text.startsWith("Sorry") || text.startsWith("mark needs")
+                || text.startsWith("Sorry") || text.startsWith("No worries")
+                || text.startsWith("I couldn’t") || text.startsWith("I’m sorry")
+                || text.startsWith("That ") || text.startsWith("An event")
+                || text.startsWith("A deadline") || text.startsWith("mark needs")
                 || text.startsWith("unmark needs") || text.startsWith("delete needs")
-                || text.startsWith("Missing") || text.startsWith("Deadline has");
+                || text.startsWith("Missing") || text.startsWith("Deadline has")
+                || text.startsWith("There’s nothing");
     }
 
     /** Flips the dialog box so the image is on the left and text on the right. */

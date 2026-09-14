@@ -72,7 +72,7 @@ public class Storage {
                         loadedTasks.add(task);
                     }
                 } catch (Exception e) {
-                    System.out.println("Warning: Skipping corrupted task entry in save file.");
+                    System.out.println("I couldn’t read one saved task, so I skipped it and continued.");
                 }
             }
         }
@@ -91,7 +91,7 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
+            System.out.println("I couldn’t save your tasks right now. Please check the storage location.");
         }
     }
 }
