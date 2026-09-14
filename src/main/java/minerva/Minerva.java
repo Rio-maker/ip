@@ -39,7 +39,7 @@ public class Minerva {
 
         try {
             tasks = new TaskList(storage.load());
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | SecurityException e) {
             ui.showLoadingError();
             tasks = new TaskList();
         }
@@ -126,7 +126,13 @@ public class Minerva {
 
         while (!isExit) {
             ui.showPrompt();
-            String command = ui.readCommand();
+            String command;
+            try {
+                command = ui.readCommand();
+            } catch (NoSuchElementException e) {
+                ui.showFarewell();
+                break;
+            }
             String response = processCommand(command);
             ui.showMessage(response);
             isExit = command.trim().equalsIgnoreCase("bye");

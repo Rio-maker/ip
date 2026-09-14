@@ -90,7 +90,7 @@ public class Storage {
                 writer.write(task.toFileFormat() + System.lineSeparator());
             }
             writer.close();
-        } catch (IOException e) {
+        } catch (IOException | SecurityException e) {
             System.out.println("I couldn’t save your tasks right now. Please check the storage location.");
         }
     }
