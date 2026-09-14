@@ -2,31 +2,29 @@ package minerva.ui;
 
 import java.util.Scanner;
 
-/** UI class to handle utility operations on chatbot initialization
- * Initializes scanner, banner, contains recurring prompts and farewell
- * And also display error/message code
+/** Handles console input and output for Minerva.
  */
 public class Ui {
     private final Scanner scanner;
 
     /**
-     * Just initializes scanner object to read standard user input
+     * Creates a scanner for reading commands from standard input.
      */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
     /**
-     * Reads the next-line inputted by the user
-     * @returns as a String the command inputted
+     * Reads the next command entered by the user.
+     *
+     * @return command entered by the user
      */
     public String readCommand() {
         return scanner.nextLine();
     }
 
     /**
-     * Prints the ASCII art banner on start up
-     * Welcome message and generic help printed as well
+     * Displays the startup banner and welcome message.
      */
     public void showWelcome() {
         //CHECKSTYLE.OFF: LineLength
@@ -45,37 +43,39 @@ public class Ui {
     }
 
     /**
-     * Prints farewell message, only when user inputs "bye"
+     * Displays the farewell message.
      */
     public void showFarewell() {
         System.out.println("Bye. And I hope to see you again soon!");
     }
 
     /**
-     * recurring prompt asking user for input to operate on tasklist
+     * Displays the recurring prompt for the next user command.
      */
     public void showPrompt() {
         System.out.println("What can I do for you today :)? \nAwaiting your input: ");
     }
 
     /**
-     * prints loading error/when first initializing bot startup
+     * Displays the message shown when no saved task file is available.
      */
     public void showLoadingError() {
         System.out.println("No saved tasks file found or error loading file. Starting with an empty task list.");
     }
 
     /**
-     * Prints out a custom error message to the console
-     * @param message to be passed in
+     * Displays an error message on the console.
+     *
+     * @param message error message to display
      */
     public void showError(String message) {
         System.out.println(message);
     }
 
     /**
-     * Prints out a custom message to show in the console
-     * @param message to be passed in
+     * Displays a message on the console.
+     *
+     * @param message message to display
      */
     public void showMessage(String message) {
         System.out.println(message);

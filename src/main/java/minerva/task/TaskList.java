@@ -3,41 +3,51 @@ package minerva.task;
 import java.util.ArrayList;
 
 /**
- * taskList class to store all the tasks, just rudimentary supporting operations for tasks,minerva and storage
+ * Stores the tasks managed by Minerva and provides basic task operations.
  */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
     /**
-     * initializes tasklist if not present
+     * Creates an empty task list.
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
     /**
-     * if pre-existing tasklist, sets tasks reference to it instead of making new
-     * @param tasks
+     * Creates a task list backed by the specified task collection.
+     *
+     * @param tasks existing tasks to store
      */
     public TaskList(ArrayList<Task> tasks) {
         assert tasks != null : "Task list must not be null";
         this.tasks = tasks;
     }
 
+    /**
+     * Returns the collection containing the tasks.
+     *
+     * @return collection containing the tasks
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
     /**
-     * @return returns size of tasklist
+     * Returns the number of tasks in the list.
+     *
+     * @return number of tasks in the list
      */
     public int getSize() {
         return tasks.size();
     }
 
     /**
-     * @param index
-     * @return task at specified index, throws out of range exception
+     * Returns the task at the specified index.
+     *
+     * @param index index of the task to return
+     * @return task at the specified index
      */
     public Task get(int index) {
         assertValidIndex(index);
@@ -45,8 +55,9 @@ public class TaskList {
     }
 
     /**
-     * adds in a new task to tasklist
-     * @param task
+     * Adds a task to the list.
+     *
+     * @param task task to add
      */
     public void add(Task task) {
         assert task != null : "Task list cannot contain null tasks";
@@ -54,9 +65,10 @@ public class TaskList {
     }
 
     /**
-     * mutates tasklist in place according to index passed in and deletes task
-     * @param index
-     * @return
+     * Removes and returns the task at the specified index.
+     *
+     * @param index index of the task to remove
+     * @return removed task
      */
     public Task delete(int index) {
         assertValidIndex(index);
@@ -64,16 +76,18 @@ public class TaskList {
     }
 
     /**
-     * operates on index of tasklist, marking done
-     * @param index
+     * Marks the task at the specified index as complete.
+     *
+     * @param index index of the task to mark
      */
     public void mark(int index) {
         assertValidIndex(index);
         tasks.get(index).markDone();
     }
     /**
-     * operates on index of tasklist, unmarking
-     * @param index
+     * Marks the task at the specified index as incomplete.
+     *
+     * @param index index of the task to unmark
      */
     public void unmark(int index) {
         assertValidIndex(index);
