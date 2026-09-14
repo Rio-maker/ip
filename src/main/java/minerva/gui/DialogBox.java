@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  * Represents a dialog box consisting of an ImageView and a label.
@@ -35,6 +36,18 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        displayPicture.setClip(new Circle(22, 22, 22));
+        if (isErrorMessage(text)) {
+            dialog.getStyleClass().add("error-label");
+        }
+    }
+
+    /** Identifies responses that should receive error styling. */
+    private boolean isErrorMessage(String text) {
+        return text.startsWith("OOPS") || text.startsWith("Please")
+                || text.startsWith("Sorry") || text.startsWith("mark needs")
+                || text.startsWith("unmark needs") || text.startsWith("delete needs")
+                || text.startsWith("Missing") || text.startsWith("Deadline has");
     }
 
     /** Flips the dialog box so the image is on the left and text on the right. */

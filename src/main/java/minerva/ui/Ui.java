@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class Ui {
     private final Scanner scanner;
+    private String welcomeMessage;
 
     /**
      * Creates a scanner for reading commands from standard input.
@@ -37,9 +38,21 @@ public class Ui {
                 + "$$ | \\_/ $$ |      $$ |      $$ |  $$ |      \\$$$$$$$\\       $$ |               \\$  /         $$ |  $$ |\n"
                 + "\\__|     \\__|      \\__|      \\__|  \\__|       \\_______|      \\__|                \\_/          \\__|  \\__|\n";
         //CHECKSTYLE.ON: LineLength
-        System.out.println(banner);
-        System.out.println("Hello! I'm minerva.Minerva! Ask me anything. *Type help for list "
-                + "of commands");
+        welcomeMessage = banner + "Hello! I'm minerva.Minerva! Ask me anything. *Type help for list "
+                + "of commands";
+        System.out.println(welcomeMessage);
+    }
+
+    /**
+     * Returns the startup banner and welcome message after it is prepared.
+     *
+     * @return startup banner and welcome message
+     */
+    public String getWelcomeMessage() {
+        if (welcomeMessage == null) {
+            showWelcome();
+        }
+        return welcomeMessage;
     }
 
     /**
@@ -53,7 +66,16 @@ public class Ui {
      * Displays the recurring prompt for the next user command.
      */
     public void showPrompt() {
-        System.out.println("What can I do for you today :)? \nAwaiting your input: ");
+        System.out.println(getPromptMessage());
+    }
+
+    /**
+     * Returns the recurring prompt for the next user command.
+     *
+     * @return recurring user prompt
+     */
+    public String getPromptMessage() {
+        return "What can I do for you today :)? \nAwaiting your input: ";
     }
 
     /**
