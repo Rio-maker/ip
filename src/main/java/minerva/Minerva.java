@@ -2,8 +2,7 @@ package minerva;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import minerva.common.Keyword;
@@ -27,6 +26,7 @@ public class Minerva {
     private TaskList tasks;
     private TaskList foundTasks;
     private final Ui ui;
+    private Deque<TaskList> deque = new ArrayDeque<>();
 
     /**
      * Loads saved tasks from the specified file.
@@ -82,6 +82,7 @@ public class Minerva {
             case "task" -> Keyword.TASK;
             case "help" -> Keyword.HELP;
             case "find" -> Keyword.FIND;
+            case "undo" -> Keyword.UNDO;
             default -> Keyword.UNKNOWN;
         };
 
@@ -109,6 +110,8 @@ public class Minerva {
             case DELETE -> deleteTask(argument);
 
             case TASK -> addTask(fullCommand);
+
+            case UNDO -> undo();
 
             case UNKNOWN -> "OOPS!!! I'm sorry, but I don't know what that means :-(";
         };
@@ -196,8 +199,10 @@ public class Minerva {
     private String markTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
+            deque.add(new TaskList(tasks));
             tasks.mark(index);
             storage.save(tasks.getTasks());
+
 
             return "Nice! I've marked this task as done, what's next? :\n"
                     + tasks.get(index);
@@ -215,8 +220,10 @@ public class Minerva {
     private String unmarkTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
+            deque.add(new TaskList(tasks));
             tasks.unmark(index);
             storage.save(tasks.getTasks());
+
 
             return "OK, I've marked this task as not done yet, make up your mind next time:\n"
                     + tasks.get(index);
@@ -237,8 +244,10 @@ public class Minerva {
         }
 
         Task newTask = new ToDo(description);
+        deque.add(new TaskList(tasks));
         tasks.add(newTask);
         storage.save(tasks.getTasks());
+
 
         return "Got it. I've added this task:\n" + newTask
                 + "\nNow you have " + tasks.getSize() + " tasks in the list.";
@@ -259,8 +268,10 @@ public class Minerva {
             }
 
             Task newTask = new Deadline(due[0], due[1]);
+            deque.add(new TaskList(tasks));
             tasks.add(newTask);
             storage.save(tasks.getTasks());
+
 
             return "Got it. I've added this task:\n" + newTask
                     + "\nNow you have " + tasks.getSize() + " tasks in the list.";
@@ -287,8 +298,10 @@ public class Minerva {
             }
 
             Task newTask = new Event(fromTo[0], fromTo[1], fromTo[2]);
+            deque.add(new TaskList(tasks));
             tasks.add(newTask);
             storage.save(tasks.getTasks());
+
 
             return "Got it. I've added this task:\n" + newTask
                     + "\nNow you have " + tasks.getSize() + " tasks in the list.";
@@ -309,8 +322,10 @@ public class Minerva {
     private String deleteTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
+            deque.add(new TaskList(tasks));
             Task removed = tasks.delete(index);
             storage.save(tasks.getTasks());
+
 
             return "Noted. I've removed this task:\n" + removed
                     + "\nNow you have " + tasks.getSize() + " tasks in the list.";
@@ -332,10 +347,27 @@ public class Minerva {
 
         String description = command.substring(4).trim();
         Task newTask = new Task(description);
+        deque.add(new TaskList(tasks));
         tasks.add(newTask);
         storage.save(tasks.getTasks());
 
+
         return "added: " + description + " as Task at index: " + tasks.getSize();
+    }
+
+    /**
+     * Undoes to previous state if available.
+     * @return operation result
+     */
+    private String undo() {
+        try {
+            tasks = deque.removeLast();
+            storage.save(tasks.getTasks());
+            return "Alright, I've undone the previous valid operation. Current state: <3 \n"
+                    + listTasks();
+        } catch (NoSuchElementException e) {
+            return "deque is empty, no prior action to undo!";
+        }
     }
 
     /**

@@ -26,6 +26,32 @@ public class TaskList {
     }
 
     /**
+     * Creates an independent copy of the specified task list.
+     *
+     * @param other task list to copy
+     */
+    public TaskList(TaskList other) {
+        assert other != null : "Task list to copy must not be null";
+        this.tasks = new ArrayList<>();
+        for (Task task : other.tasks) {
+            Task copy;
+            if (task instanceof Deadline deadline) {
+                copy = new Deadline(deadline.description, deadline.by.toString());
+            } else if (task instanceof Event event) {
+                copy = new Event(event.description, event.from.toString(), event.to);
+            } else if (task instanceof ToDo) {
+                copy = new ToDo(task.description);
+            } else {
+                copy = new Task(task.description);
+            }
+            if (task.isDone) {
+                copy.markDone();
+            }
+            this.tasks.add(copy);
+        }
+    }
+
+    /**
      * Returns the collection containing the tasks.
      *
      * @return collection containing the tasks
